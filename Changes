@@ -1,3 +1,6 @@
+0.05    Thanks to a patch from Jos Boumans, now picks up versions 
+        in the form $Foo::Bar::VERSION
+
 0.04    One-line change to modversion so it doesn't barf if the 
         module isn't installed
 

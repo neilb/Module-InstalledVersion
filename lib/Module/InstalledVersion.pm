@@ -7,7 +7,7 @@ use Carp ();
 use File::Spec ();
 
 use vars '$VERSION';
-$VERSION = "0.04";
+$VERSION = "0.05";
 
 =pod
 
@@ -49,8 +49,8 @@ sub new {
                     # documentation.
                     if (/([\$*])(([\w\:\']*)\bVERSION)\b.*\=/) {
                         local $VERSION;
-                        eval $_;
-                        $self->{version} = $VERSION;
+                        my $res = eval $_;
+                        $self->{version} = $VERSION || $res;
                         last DIR;
                     }
                 }
