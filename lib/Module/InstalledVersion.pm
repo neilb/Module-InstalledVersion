@@ -3,10 +3,11 @@
 package Module::InstalledVersion;
 
 use strict;
-use Carp;
+use Carp ();
+use File::Spec ();
 
 use vars '$VERSION';
-$VERSION = "0.02";
+$VERSION = "0.03";
 
 =pod
 
@@ -30,47 +31,31 @@ L<Extutils::MakeMaker> for figuring this out.
 Note that it won't work if the module you're looking at doesn't set
 $VERSION properly.  This is true of far too many CPAN modules.
 
-=begin testing
-
-BEGIN: { use_ok("Module::InstalledVersion", "Use Module::InstalledVersion") }
-
-foreach my $module (qw(CPAN Fcntl Text::Wrap)) {
-    if (eval "require $module" ) {
-        my $m = Module::InstalledVersion->new($module);
-        ok($m->isa("Module::InstalledVersion"), "create new object for $module");
-        is($m->{version}, ${"${module}::VERSION"}, "Picked up version of $module");
-    } else {
-        print STDERR "Can't require $module\n";
-    }
-}
-
-=end testing
-
 =cut
 
 sub new {
     shift;
     my ($module_name) = @_;
     my $self = {};
-    $module_name =~ s/::/\//g;
+    $module_name = File::Spec->catfile(split(/::/, $module_name));
 
     DIR: foreach my $dir (@INC) {
-        my $filename = "$dir/$module_name.pm";
+        my $filename = File::Spec->catfile($dir, "$module_name.pm");
         if (-e $filename ) {
+            $self->{dir} = $dir;
             if (open IN, "$filename") {
                 while (<IN>) {
-                    # the following regexp comes from the Extutils::MakeMaker 
+                    # the following regexp comes from the Extutils::MakeMaker
                     # documentation.
                     if (/([\$*])(([\w\:\']*)\bVERSION)\b.*\=/) {
                         local $VERSION;
                         eval $_;
                         $self->{version} = $VERSION;
-                        $self->{dir} = $dir;
                         last DIR;
                     }
                 }
             } else {
-                carp "Can't open $filename: $!";
+                Carp::carp "Can't open $filename: $!";
             }
         }
     }

@@ -4,6 +4,8 @@ Changes
 
 lib/Module/InstalledVersion.pm
 
-t/embedded-Module-InstalledVersion.t
+t/miv.t
+
+modversion
 
 
