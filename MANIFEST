@@ -1,0 +1,9 @@
+Makefile.PL
+MANIFEST
+Changes
+
+lib/Module/InstalledVersion.pm
+
+t/embedded-Module-InstalledVersion.t
+
+
