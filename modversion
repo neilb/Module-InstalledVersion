@@ -11,5 +11,4 @@ if ($m->{version}) {
     print "$ARGV[0] doesn't seem to have a proper version\n";
 } else {
     print "Can't find $ARGV[0] in \@INC\n";
-    print "dir is $m->{dir}\n";
 }
