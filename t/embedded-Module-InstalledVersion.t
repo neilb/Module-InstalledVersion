@@ -25,7 +25,7 @@ tie *STDOUT, 'Catch' or die $!;
 
 
 {
-#line 32 lib/Module/InstalledVersion.pm
+#line 35 lib/Module/InstalledVersion.pm
 
 BEGIN: { use_ok("Module::InstalledVersion", "Use Module::InstalledVersion") }
 

@@ -6,7 +6,7 @@ use strict;
 use Carp;
 
 use vars '$VERSION';
-$VERSION = "0.01";
+$VERSION = "0.02";
 
 =pod
 
@@ -26,6 +26,9 @@ Module::InstalledVersion - Find out what version of a module is installed
 This module finds out what version of another module is installed,
 without running that module.  It uses the same regexp technique used by
 L<Extutils::MakeMaker> for figuring this out.
+
+Note that it won't work if the module you're looking at doesn't set
+$VERSION properly.  This is true of far too many CPAN modules.
 
 =begin testing
 
@@ -54,7 +57,6 @@ sub new {
     DIR: foreach my $dir (@INC) {
         my $filename = "$dir/$module_name.pm";
         if (-e $filename ) {
-            print "Found file $filename\n";
             if (open IN, "$filename") {
                 while (<IN>) {
                     # the following regexp comes from the Extutils::MakeMaker 
